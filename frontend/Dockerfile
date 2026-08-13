@@ -9,6 +9,14 @@ RUN npm install
 
 COPY . .
 
-EXPOSE 5173
+# ... your previous setup steps (like COPY and npm install) are above here
 
-CMD ["npm", "run", "preview", "--", "--host", "0.0.0.0"]
+# 1. Compile the React/Vite assets into a production folder
+RUN npm run build
+
+# 2. Expose the deployment network port
+EXPOSE 10000
+
+# 3. Start the production asset preview server
+CMD ["npm", "run", "preview"]
+
