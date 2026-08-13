@@ -1,5 +1,5 @@
-import { useState } from "react";
-import "./App.css";
+// Paste your Render backend URL right here 👇
+const API_BASE_URL = import.meta.env.VITE_API_URL || "https://askmynotes-backend-gy2u.onrender.com";
 
 function App() {
   const [question, setQuestion] = useState("");
@@ -21,13 +21,11 @@ function App() {
     setAnswer("");
 
     try {
-      const response = await fetch("http://localhost:8000/ask", {
+      const response = await fetch(`${API_BASE_URL}/ask`, {
         method: "POST",
-
         headers: {
           "Content-Type": "application/json",
         },
-
         body: JSON.stringify({
           question: cleanedQuestion,
         }),
@@ -38,11 +36,9 @@ function App() {
       }
 
       const data = await response.json();
-
       setAnswer(data.answer);
     } catch (err) {
       console.error(err);
-
       setError(
         "Unable to connect to the backend. Check whether the FastAPI container is running."
       );
@@ -51,38 +47,4 @@ function App() {
     }
   };
 
-  return (
-    <main className="page">
-      <section className="card">
-        <h1>Ask My Notes</h1>
-
-        <p>Enter a question and send it to the FastAPI backend.</p>
-
-        <label htmlFor="question">Your question</label>
-
-        <textarea
-          id="question"
-          value={question}
-          onChange={(event) => setQuestion(event.target.value)}
-          placeholder="For example: What is Docker?"
-          rows="5"
-        />
-
-        <button onClick={askQuestion} disabled={loading}>
-          {loading ? "Sending..." : "Ask Question"}
-        </button>
-
-        {error && <div className="error">{error}</div>}
-
-        {answer && (
-          <div className="answer">
-            <h2>Backend response</h2>
-            <p>{answer}</p>
-          </div>
-        )}
-      </section>
-    </main>
-  );
-}
-
-export default App;
+  // ... rest of your App component code
