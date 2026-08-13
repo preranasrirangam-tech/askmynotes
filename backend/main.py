@@ -10,14 +10,13 @@ app = FastAPI(
 )
 
 
-# React runs on port 5173.
-# FastAPI runs on port 8000.
-# Since these are different origins, CORS permission is required.
+# Updated CORS permission to include your live Render frontend domain
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:5173",
         "http://127.0.0.1:5173",
+        "https://onrender.com",  # Your exact live frontend link
     ],
     allow_credentials=True,
     allow_methods=["*"],
