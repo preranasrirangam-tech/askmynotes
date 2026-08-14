@@ -1,4 +1,6 @@
-// Paste your Render backend URL right here 👇
+import { useState } from "react"; // 👈 ALL imports MUST be at the top!
+import "./App.css";
+
 const API_BASE_URL = import.meta.env.VITE_API_URL || "https://askmynotes-backend-gy2u.onrender.com";
 
 function App() {
@@ -47,4 +49,38 @@ function App() {
     }
   };
 
-  // ... rest of your App component code
+  return (
+    <main className="page">
+      <section className="card">
+        <h1>Ask My Notes</h1>
+
+        <p>Enter a question and send it to the FastAPI backend.</p>
+
+        <label htmlFor="question">Your question</label>
+
+        <textarea
+          id="question"
+          value={question}
+          onChange={(event) => setQuestion(event.target.value)}
+          placeholder="For example: What is Docker?"
+          rows="5"
+        />
+
+        <button onClick={askQuestion} disabled={loading}>
+          {loading ? "Sending..." : "Ask Question"}
+        </button>
+
+        {error && <div className="error">{error}</div>}
+
+        {answer && (
+          <div className="answer">
+            <h2>Backend response</h2>
+            <p>{answer}</p>
+          </div>
+        )}
+      </section>
+    </main>
+  );
+}
+
+export default App;
